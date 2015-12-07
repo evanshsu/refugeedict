@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+  <title>offline dictionary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <script src='./sql.js'></script>
+  <script src='./jquery.js'></script>
+  <script>
+  var db = null;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', './dict.db', true);
+  xhr.responseType = 'arraybuffer';
+  xhr.onload = function(e) {
+    var uInt8Array = new Uint8Array(this.response);
+    db = new SQL.Database(uInt8Array);
+  };
+  xhr.send();
+
+  function fetch(scene) {
+    var contents = db.exec("SELECT word1,lang1, word2,lang2,word3,lang3 FROM dict where scene=" + scene + " order by id asc");
+    display(contents);
+  }
+
+  function display(contents) {
+    var result = "";
+    for(i in contents[0].values ) {
+      result = result + "<div with='100%' class='card'><h1>" + contents[0].values[i][0] + "</h1>"
+             + "<h2>" + contents[0].values[i][3] + ". " + contents[0].values[i][2] + "</h2>"
+             + "<h2>" + contents[0].values[i][5] + ". " + contents[0].values[i][4] + "</h2>"
+             + "</div>"; 
+    }
+    $('#content').html(result);
+    $('#content').show();
+    $('#buttons').hide("slow");
+  }
+
+  function main() {
+    $('#buttons').show("fast");
+    $('#content').hide();
+  }
+
+  function search() {
+    var q = $('#query').val();
+    var contents = db.exec("SELECT word1,lang1,word2,lang2,word3,lang3 FROM dict " 
+                 + "where word3 like '%" + q + "%'  or word2 like '%" 
+                 + q + "%'  or word1 like '%" + q + "%'  order by id asc");
+    display(contents);
+  }
+
+  function creditPage() {
+    window.location="./credit.html";
+  }
+
+  $(document).ready(function(){
+    $('#query').bind('keyup', function(e) {
+      if ( e.keyCode === 13 ) {
+        search();
+      }
+    });
+  });
+  </script>
+  <style>
+    #buttons {margin:10px}
+    #buttons img {padding:15px}
+    body {margin: 0px}
+    #searchbar {padding:10px 0 10px 0; margin:0px; background-color: #eeeeee}
+    .card {padding: 10px; margin:10px; box-shadow:3px 3px 10px rgba(20%,20%,40%,0.3);}
+    .card h1 {font-size: 30px}
+    .card h2 {font-size: 20px; padding-left: 20px}
+  </style>
+</head>
+<body style="height:100%;max-width:490px">
+  <div id="searchbar">
+  <center>
+    <img src='back.png' id='back' width='20px' onclick='main();' style="vertical-align: text-top;margin-right:10px">
+    <input type="text" id="query" size="35" style="height: 30px; border-style:solid; border-width:1px; border-radius: 5px;">
+    <img src="search.png" width="20px" style="vertical-align: text-top; margin-left:10px" onclick="search()"> 
+  </center>
+  </div>
+  <div id="buttons">
+    <img src="1.png" width="60px" onclick="fetch(1)">
+    <img src="2.png" width="60px" onclick="fetch(2)">
+    <img src="3.png" width="60px" onclick="fetch(3)">
+    <img src="4.png" width="60px" onclick="fetch(4)">
+    <img src="5.png" width="60px" onclick="fetch(5)">
+    <img src="6.png" width="60px" onclick="fetch(6)">
+    <img src="7.png" width="60px" onclick="fetch(7)">
+    <img src="8.png" width="60px" onclick="fetch(8)">
+    <img src="9.png" width="60px" onclick="fetch(9)">
+    <img src="10.png" width="60px" onclick="fetch(10)">
+    <img src="11.png" width="60px" onclick="fetch(11)">
+    <img src="12.png" width="60px" onclick="fetch(12)">
+    <img src="13.png" width="60px" onclick="fetch(13)">
+    <img src="14.png" width="60px" onclick="fetch(14)">
+    <img src="setting.png" width="60px" onclick="creditPage()">
+  </div>
+  <div id="content"></div>
+  <!-- 
+Copyright 2015 Evans Hsu
+Licensed under the terms of the MIT license, see LICENSE file in the project root for terms.
+  -->
+</body>
+</html>
