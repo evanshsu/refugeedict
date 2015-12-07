@@ -1,7 +1,7 @@
 ## Refugee Offline Dictionary ( Arabic to German and English )
 The first version of this dictionary will have the translation from Arabic to German and English. Although internet is a widespread thing nowadays, when refugee go across the boarders, they have very limited access or even no access to Internet. Therefore, this webapp is designed to work well even without internet, as long as you have been to this website. 
 
-![alt tag](https://github.com/raw/evanshsu/refugeedict/master/demo.gif)
+![alt tag](https://raw.githubusercontent.com/evanshsu/refugeedict/master/demo.gif?token=ACZztAvdI3dgCQUnYqIKXZj7Hc8ehqRbks5WblJdwA%3D%3D)
 
 ## Credits
 Especially, thanks Project Refugee Phrasebook (http://www.refugeephrasebook.de/) shared awesome open dataset.
